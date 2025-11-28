@@ -35,6 +35,7 @@ const verifyCaptcha = async (token) => {
     return false;
   }
 };
+
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, phone, message, captchaToken } = req.body;
