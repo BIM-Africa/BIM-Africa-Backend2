@@ -1,3 +1,4 @@
+import { connectDB } from "../config/connectDB.js";
 import admin from "../models/admin.js";
 import Blog from "../models/blogs.js";
 import jwt from "jsonwebtoken";
@@ -8,6 +9,7 @@ export const getBlogs = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    connectDB();
 
     const blogs = await Blog.find()
       .sort({ createdAt: -1 })
