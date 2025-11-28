@@ -16,6 +16,25 @@ app.get('/', (req, res) => res.send('✅ Server running on Cloudflare Workers!')
 
 app.use("/api", allRoutes)
 // CONTACT Endpoint
+
+const verifyCaptcha = async (token) => {
+  try {
+    const secretKey = "6LcPmRgsAAAAAG46D5YNVofHmFbD3kZoH78dVeBg"; // your SECRET key
+
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`,
+      { method: "POST" }
+    );
+
+    const data = await response.json();
+
+    // Return ONLY true if human
+    return data.success === true && data.score >= 0.3;
+  } catch (err) {
+    console.error("Captcha verify error:", err);
+    return false;
+  }
+};
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, phone, message, captchaToken } = req.body;
