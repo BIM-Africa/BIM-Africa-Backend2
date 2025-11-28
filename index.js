@@ -9,7 +9,8 @@ const app = express()
 app.use(cors())
 
 // ✅ Simple root route
-app.get('/', (c) => c.text('✅ Server running on Cloudflare Workers!'))
+app.get('/', (req, res) => res.send('✅ Server running on Cloudflare Workers!'))
+
 
 app.use("/api", allRoutes)
 // CONTACT Endpoint
